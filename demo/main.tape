@@ -4,11 +4,10 @@ Set Shell "bash"
 Set FontSize 14
 Set Padding 2
 Set Margin 2
-Set Width 640
-Set Height 480
+Set Width 720
 Set Framerate 60
-Set TypingSpeed 50ms
-Set PlaybackSpeed 1
+Set TypingSpeed 20ms
+Set PlaybackSpeed 0.5
 Set CursorBlink false
 
 Require workdiary
