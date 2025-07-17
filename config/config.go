@@ -89,13 +89,14 @@ func PrintDefaultConfig() {
 }
 
 func ReadConfig(confPath string) (*Config, error) {
-	if len(confPath) == 0 {
-		confPath = ConfigPath
-	}
 	cfg := DefaultConfig()
 
 	userHome, _ := os.UserHomeDir() // ignore rare cases when user home is undefined
-	userConfig := filepath.Join(userHome, confPath)
+	userConfig := filepath.Join(userHome, ConfigPath)
+
+	if len(confPath) > 0 {
+		userConfig = confPath
+	}
 
 	b, err := os.ReadFile(userConfig)
 	if err != nil {
