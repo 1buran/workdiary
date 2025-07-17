@@ -30,3 +30,8 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# media content
+demo/*.webm
+demo/*.gif
+demo/*.mp4
