@@ -58,8 +58,9 @@ func (dp dayprint) Print(d valueobject.Day) {
 	}
 
 	if hours > dp.limit {
+		extra := hours - dp.limit
 		dp.debug.Write(
-			fmt.Sprintf("extra: %s +%.2fh", d.Format("2006-01-02"), hours-dp.limit))
+			fmt.Sprintf("extra: %s +%.2fh/+%.2f", d.Format("Jan 02"), extra, extra*d.Rate()))
 	}
 
 	fmt.Print(s)
