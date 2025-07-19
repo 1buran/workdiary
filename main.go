@@ -41,9 +41,21 @@ func main() {
 	if args.Calendar != nil {
 		var clients []apiclient.ApiClient
 		for _, r := range cfg.Infra.ApiClient.Redmine {
-			clients = append(
-				clients, apiclient.NewRedmineApiClient(
-					r.Name, r.Url, r.Token, r.UserId, r.EmployeeProfile.HourlyRate, r.LogEnabled))
+			if !r.Disabled {
+				clients = append(
+					clients, apiclient.NewRedmineApiClient(
+						r.Name, r.Url, r.Token, r.UserId,
+						r.EmployeeProfile.HourlyRate, r.LogEnabled))
+			}
+		}
+
+		for _, g := range cfg.Infra.ApiClient.Gitlab {
+			if !g.Disabled {
+				clients = append(
+					clients, apiclient.NewGitlabApiClient(
+						g.Url, g.Token, g.ProjectPath,
+						g.EmployeeProfile.HourlyRate, g.LogEnabled))
+			}
 		}
 
 		today := time.Now()

@@ -38,11 +38,21 @@ func Show(
 		go func() {
 			defer agents.Done()
 			days, err := client.List(d1, d2)
-			for day := range days {
-				repo.Add(day)
-			}
-			for e := range err {
-				fmt.Println(e)
+			for {
+				select {
+				case day, ok := <-days:
+					repo.Add(day)
+					if !ok {
+						return
+					}
+				case e, ok := <-err:
+					if e != nil {
+						fmt.Println(e)
+					}
+					if !ok {
+						return
+					}
+				}
 			}
 		}()
 	}

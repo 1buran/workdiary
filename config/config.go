@@ -20,8 +20,15 @@ type RedmineClientConf struct {
 	EmployeeProfile          EmployeeProfile `json:"employee"`
 }
 
+type GitlabClientConf struct {
+	Name, Url, Token, ProjectPath string
+	Disabled, LogEnabled          bool
+	EmployeeProfile               EmployeeProfile `json:"employee"`
+}
+
 type ApiClientConf struct {
 	Redmine []RedmineClientConf
+	Gitlab  []GitlabClientConf
 }
 
 type Infrastructure struct {
@@ -72,6 +79,16 @@ func DefaultConfig() Config {
 						Token:           "xxxxxxxxxxxxxx",
 						LogEnabled:      true,
 						EmployeeProfile: EmployeeProfile{DailyHoursLimit: 8, HourlyRate: 10.5},
+					},
+				},
+				Gitlab: []GitlabClientConf{
+					{
+						Name:            "example2",
+						Url:             "https://domain.com/api/graphql",
+						ProjectPath:     "group/project",
+						Token:           "xxxxxxxxxxxxxx",
+						LogEnabled:      true,
+						EmployeeProfile: EmployeeProfile{DailyHoursLimit: 4, HourlyRate: 15},
 					},
 				},
 			},
