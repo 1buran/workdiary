@@ -32,6 +32,20 @@ To print example of config use `-p` option:
             "HourlyRate": 10.5
           }
         }
+      ],
+      "Gitlab": [
+        {
+          "Name": "example2",
+          "Url": "https://domain.com/api/graphql",
+          "Token": "xxxxxxxxxxxxxx",
+          "ProjectPath": "group/project",
+          "Disabled": false,
+          "LogEnabled": true,
+          "employee": {
+            "DailyHoursLimit": 4,
+            "HourlyRate": 15
+          }
+        }
       ]
     }
   },
