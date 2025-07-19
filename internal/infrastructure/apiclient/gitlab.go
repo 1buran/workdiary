@@ -3,7 +3,6 @@ package apiclient
 import (
 	"context"
 	"net/http"
-	"path"
 	"time"
 
 	"github.com/hasura/go-graphql-client"
@@ -12,7 +11,7 @@ import (
 )
 
 func NewGitlabApiClient(
-	url, token, projectPath string,
+	projectName, url, token, projectPath string,
 	hourlyRate float32,
 	logEnabled bool,
 ) ApiClient {
@@ -22,14 +21,15 @@ func NewGitlabApiClient(
 		}).
 		WithDebug(logEnabled)
 	return gitlabApiClient{
-		client: grc, projectPath: projectPath, hourlyRate: hourlyRate,
+		client: grc, projectPath: projectPath, projectName: projectName, hourlyRate: hourlyRate,
 	}
 }
 
 type gitlabApiClient struct {
-	client      *graphql.Client
-	projectPath string
-	hourlyRate  float32 // employee rate
+	client     *graphql.Client
+	hourlyRate float32 // employee rate
+
+	projectName, projectPath string
 }
 
 func (g gitlabApiClient) List(d1, d2 time.Time) (<-chan valueobject.Day, <-chan error) {
@@ -91,10 +91,7 @@ func (g gitlabApiClient) List(d1, d2 time.Time) (<-chan valueobject.Day, <-chan 
 	return ch, er
 }
 
-func (g gitlabApiClient) Project() (p string) {
-	_, p = path.Split(g.projectPath)
-	return
-}
+func (g gitlabApiClient) Project() (p string) { return g.projectName }
 
 // todo
 func (g gitlabApiClient) Track(date time.Time, hours float32) error { return nil }

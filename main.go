@@ -53,7 +53,7 @@ func main() {
 			if !g.Disabled {
 				clients = append(
 					clients, apiclient.NewGitlabApiClient(
-						g.Url, g.Token, g.ProjectPath,
+						g.Name, g.Url, g.Token, g.ProjectPath,
 						g.EmployeeProfile.HourlyRate, g.LogEnabled))
 			}
 		}
