@@ -38,7 +38,7 @@ func (i *inmemory) Compact() {
 		if v, ok := diary[d.Format(time.DateOnly)]; ok {
 			v[1] += d.Hours()
 			v[2] += d.Gross()
-			v[0] += v[2] / v[1]
+			v[0] = v[2] / v[1]
 		} else {
 			diary[d.Format(time.DateOnly)] = []float32{d.Rate(), d.Hours(), d.Gross()}
 		}
