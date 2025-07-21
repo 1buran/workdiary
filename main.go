@@ -26,7 +26,7 @@ func (d Date) Time() time.Time { return d.t }
 type TrackMode struct {
 	Project  string  `arg:"-P,--project" help:"project name in config"`
 	Activity string  `arg:"-A,--activity" help:"actuvity id (redmine specific)"`
-	Date     Date    `arg:"-D,--date" help:"date"`
+	Date     Date    `arg:"-D,--date" help:"date, format: 2025-12-25"`
 	Issue    string  `arg:"-I,--issue" help:"issue ID"`
 	Comment  string  `arg:"-C,--comment" help:"comment"`
 	Hours    float32 `arg:"-H,--hours,required" help:"hours"`
