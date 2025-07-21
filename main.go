@@ -26,9 +26,12 @@ type CalendarMode struct {
 	Year  int `arg:"-y,--year" help:"choose year (default: current year)"`
 }
 
+type DemoMode struct{}
+
 type Args struct {
 	Calendar *CalendarMode `arg:"subcommand:cal" help:"calendar"`
 	Track    *TrackMode    `arg:"subcommand:track" help:"track time"`
+	Demo     *DemoMode     `arg:"subcommand:demo" help:"demo"`
 
 	Debug              bool   `arg:"-d,--debug" help:"enable debug"`
 	Config             string `arg:"-c,--" placeholder:"CONFIG" help:"config path (default: ~/.config/workdiary/config.json)"`
@@ -42,6 +45,10 @@ func main() {
 	if args.PrintConfigExample {
 		config.PrintDefaultConfig()
 		return
+	}
+
+	if args.Demo != nil {
+		usecase.Demo()
 	}
 
 	cfg, err := config.ReadConfig(args.Config)
