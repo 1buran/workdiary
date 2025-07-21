@@ -146,7 +146,7 @@ func (g gitlabApiClient) Track(
 		} `graphql:"timelogCreate(input: {issuableId: $issue, timeSpent: $timeSpent, spentAt: $ts, summary: $comment})"`
 	}
 
-	variables = map[string]interface{}{
+	variables = map[string]any{
 		"issue":     IssuableID(q.Project.Issue.GID),
 		"ts":        Time(date.Format(time.RFC3339)),
 		"timeSpent": (time.Minute * time.Duration(hours*60)).String(),
