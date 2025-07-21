@@ -161,7 +161,8 @@ just add another one seciton with that project to config.
 
 Use `-A` (capital letter) or `--activity` (Redmine specific) to specify activity type.
 
-Use `-D` (capital letter) or `--date` to specify the date of spent time, default: today.
+Use `-D` (capital letter) or `--date` to specify the date of spent time,
+    format: 2025-12-27, default: today.
 
 Use `-I` (capital letter) or `--issue` to specify the issue ID inside tracking system
 (required for Gitlab but optional for Redmine).
