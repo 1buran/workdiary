@@ -3,7 +3,7 @@ module github.com/1buran/workdiary
 go 1.24.5
 
 require (
-	github.com/1buran/redmine v0.2.0
+	github.com/1buran/redmine v0.2.1
 	github.com/alexflint/go-arg v1.6.0
 	github.com/hasura/go-graphql-client v0.14.4
 	github.com/lucasb-eyer/go-colorful v1.2.0

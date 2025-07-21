@@ -15,9 +15,9 @@ type EmployeeProfile struct {
 }
 
 type RedmineClientConf struct {
-	Name, Url, Token, UserId string
-	Disabled, LogEnabled     bool
-	EmployeeProfile          EmployeeProfile `json:"employee"`
+	Name, Url, Token, UserId, Project string
+	Disabled, LogEnabled              bool
+	EmployeeProfile                   EmployeeProfile `json:"employee"`
 }
 
 type GitlabClientConf struct {
@@ -74,6 +74,7 @@ func DefaultConfig() Config {
 				Redmine: []RedmineClientConf{
 					{
 						Name:            "example",
+						Project:         "redmine-project",
 						Url:             "http://example.com",
 						UserId:          "100",
 						Token:           "xxxxxxxxxxxxxx",

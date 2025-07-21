@@ -1,6 +1,7 @@
 package apiclient
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/1buran/redmine"
@@ -63,5 +64,40 @@ func (r redmineApiClient) List(d1, d2 time.Time) (<-chan valueobject.Day, <-chan
 
 func (r redmineApiClient) Project() string { return r.projectName }
 
-// todo
-func (r redmineApiClient) Track(date time.Time, hours float32) error { return nil }
+func (r redmineApiClient) Track(
+	date time.Time,
+	issue, activity string,
+	hours float32,
+	comment string,
+) error {
+	if date.IsZero() {
+		date = time.Now()
+	}
+
+	params := redmine.NewPostTimeEntryParams()
+	if len(issue) > 0 {
+		iid, err := strconv.Atoi(issue)
+		if err != nil {
+			return err
+		}
+		params.Payload.IssueID = iid
+	} else {
+		params.Payload.ProjectID = r.Project()
+	}
+
+	aid, err := strconv.Atoi(activity)
+	if err != nil {
+		return err
+	}
+
+	params.Payload.Hours = hours
+	params.Payload.Comments = comment
+	params.Payload.ActivityID = aid
+	params.Payload.SpentOn = redmine.Date{Time: date}
+
+	if err := redmine.Create(r.client, *params); err != nil {
+		return err
+	}
+
+	return nil
+}

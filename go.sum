@@ -1,5 +1,5 @@
-github.com/1buran/redmine v0.2.0 h1:1glGzf9REI4iZX+h7Ev7doBqQoqxC2/T7ku502egjVI=
-github.com/1buran/redmine v0.2.0/go.mod h1:9IEfkzpMzpUo+6OQkT64aOJZYmV03r1djAjpviNopTc=
+github.com/1buran/redmine v0.2.1 h1:6f0ywH3nU4xerDvHP7uw02u6j9X1M4McfHpmmSL4tg0=
+github.com/1buran/redmine v0.2.1/go.mod h1:9IEfkzpMzpUo+6OQkT64aOJZYmV03r1djAjpviNopTc=
 github.com/alexflint/go-arg v1.6.0 h1:wPP9TwTPO54fUVQl4nZoxbFfKCcy5E6HBCumj1XVRSo=
 github.com/alexflint/go-arg v1.6.0/go.mod h1:A7vTJzvjoaSTypg4biM5uYNTkJ27SkNTArtYXnlqVO8=
 github.com/alexflint/go-scalar v1.2.0 h1:WR7JPKkeNpnYIOfHRa7ivM21aWAdHD0gEWHCx+WQBRw=
