@@ -12,13 +12,24 @@ import (
 	"github.com/1buran/workdiary/internal/infrastructure/apiclient"
 )
 
+type Date struct {
+	t time.Time
+}
+
+func (d *Date) UnmarshalText(b []byte) (err error) {
+	d.t, err = time.Parse(time.DateOnly, string(b))
+	return
+}
+
+func (d Date) Time() time.Time { return d.t }
+
 type TrackMode struct {
-	Project  string    `arg:"-P,--project" help:"project name in config"`
-	Activity string    `arg:"-A,--activity" help:"actuvity id (redmine specific)"`
-	Date     time.Time `arg:"-D,--date" help:"date"`
-	Issue    string    `arg:"-I,--issue" help:"issue ID"`
-	Comment  string    `arg:"-C,--comment" help:"comment"`
-	Hours    float32   `arg:"-H,--hours,required" help:"hours"`
+	Project  string  `arg:"-P,--project" help:"project name in config"`
+	Activity string  `arg:"-A,--activity" help:"actuvity id (redmine specific)"`
+	Date     Date    `arg:"-D,--date" help:"date"`
+	Issue    string  `arg:"-I,--issue" help:"issue ID"`
+	Comment  string  `arg:"-C,--comment" help:"comment"`
+	Hours    float32 `arg:"-H,--hours,required" help:"hours"`
 }
 
 type CalendarMode struct {
@@ -119,7 +130,7 @@ func main() {
 			return
 		} else {
 			usecase.Track(
-				client, args.Track.Date, args.Track.Issue, args.Track.Activity,
+				client, args.Track.Date.Time(), args.Track.Issue, args.Track.Activity,
 				args.Track.Hours, args.Track.Comment,
 			)
 		}
