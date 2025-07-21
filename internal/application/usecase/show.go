@@ -41,10 +41,10 @@ func Show(
 			for {
 				select {
 				case day, ok := <-days:
-					repo.Add(day)
 					if !ok {
 						return
 					}
+					repo.Add(day)
 				case e, ok := <-err:
 					if e != nil {
 						fmt.Println(e)
