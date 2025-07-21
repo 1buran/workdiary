@@ -25,6 +25,7 @@ To print example of config use `-p` option:
           "Url": "http://example.com",
           "Token": "xxxxxxxxxxxxxx",
           "UserId": "100",
+          "Project": "redmine-project",
           "Disabled": false,
           "LogEnabled": true,
           "employee": {
@@ -99,6 +100,75 @@ Use `-p` or `--print-conf-example` to print example of config.
 
 Subcommands:
 - `cal`- show calendar with stats of working days.
+- `track`- register spent time in tracking system (Redmine or GitLab)
+
+### Calendar
+
+Use `-h` or `--help` to print help of calendar subcommand:
+
+```
+Usage: workdiary cal [--month MONTH] [--year YEAR]
+
+Options:
+  --month MONTH, -m MONTH
+                         choose month (default: current month)
+  --year YEAR, -y YEAR   choose year (default: current year)
+
+Global options:
+  --debug, -d            enable debug
+  -c CONFIG              config path (default: ~/.config/workdiary/config.json)
+  --print-conf-example, -p
+                         print example of config and exit
+  --help, -h             display this help and exit
+```
+
+Use `-y` or `--year` to set custom year, default: current year.
+
+Use `-m` or `--month` to set custom month, default: current month.
+
+### Track
+
+Use `-h` or `--help` to print help of tracking time subcommand:
+
+```
+Usage: workdiary track [--project PROJECT] [--activity ACTIVITY] [--date DATE] [--issue ISSUE] [--comment COMMENT] --hours HOURS
+
+Options:
+  --project PROJECT, -P PROJECT
+                         project name in config
+  --activity ACTIVITY, -A ACTIVITY
+                         actuvity id (redmine specific)
+  --date DATE, -D DATE   date
+  --issue ISSUE, -I ISSUE
+                         issue ID
+  --comment COMMENT, -C COMMENT
+                         comment
+  --hours HOURS, -H HOURS
+                         hours
+
+Global options:
+  --debug, -d            enable debug
+  -c CONFIG              config path (default: ~/.config/workdiary/config.json)
+  --print-conf-example, -p
+                         print example of config and exit
+  --help, -h             display this help and exit
+```
+
+Use `-P` (capital letter) or `--project` to specify the project,
+this is the value must be matched to a value from confi  sections `Redmine.Name` or
+`Gitlab.Name`, if you need register time to more than one project,
+just add another one seciton with that project to config.
+
+Use `-A` (capital letter) or `--activity` (Redmine specific) to specify activity type.
+
+Use `-D` (capital letter) or `--date` to specify the date of spent time, default: today.
+
+Use `-I` (capital letter) or `--issue` to specify the issue ID inside tracking system
+(required for Gitlab but optional for Redmine).
+
+Use `-H` (capital letter) or `--hours` to specify spent time in hours (required).
+
+Use `-C` (capital letter) or `--comment` to specify a comment (optional).
 
 ## Tasks
 
