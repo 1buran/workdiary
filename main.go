@@ -104,7 +104,7 @@ func main() {
 		}
 
 		monthbegin := time.Date(year, month, 1, 0, 0, 0, 0, time.UTC)
-		monthend := monthbegin.AddDate(0, 1, 0)
+		monthend := monthbegin.AddDate(0, 1, 0).Add(-time.Nanosecond)
 
 		var clientList []apiclient.ApiClient
 		for _, v := range clients {
