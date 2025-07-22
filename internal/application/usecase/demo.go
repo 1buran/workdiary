@@ -15,9 +15,10 @@ func Demo() {
 	year := today.Year()
 
 	output := termenv.NewOutput(os.Stdout)
+	output.HideCursor()
 	for i := range 12 {
 		monthbegin := time.Date(year, time.Month(i+1), 1, 0, 0, 0, 0, time.UTC)
-		monthend := monthbegin.AddDate(0, 1, 0)
+		monthend := monthbegin.AddDate(0, 1, 0).Add(-time.Nanosecond)
 
 		Show(
 			output, clients, monthbegin, monthend,
@@ -27,4 +28,5 @@ func Demo() {
 		time.Sleep(400 * time.Millisecond)
 		output.ClearScreen()
 	}
+	output.ShowCursor()
 }
