@@ -32,6 +32,10 @@ type gitlabApiClient struct {
 	projectName, projectPath string
 }
 
+// Gitlab TimelogSort const.
+// https://docs.gitlab.com/api/graphql/reference/#timelogsort
+type TimelogSort string
+
 func (g gitlabApiClient) List(d1, d2 time.Time) (<-chan valueobject.Day, <-chan error) {
 	ch := make(chan valueobject.Day)
 	er := make(chan error)
@@ -40,52 +44,56 @@ func (g gitlabApiClient) List(d1, d2 time.Time) (<-chan valueobject.Day, <-chan 
 		defer close(ch)
 		defer close(er)
 
-		var q struct {
-			Project struct {
-				Issues struct {
-					Nodes []struct {
-						IssueID  string `graphql:"iid"`
-						Title    string `graphql:"title"`
-						WebUrl   string `graphql:"webUrl"`
-						TimeLogs struct {
-							Nodes []struct {
-								TimeSpentSeconds int       `graphql:"timeSpent"`
-								SpentAt          time.Time `graphql:"spentAt"`
-								Summary          string    `graphql:"summary"`
-								User             struct {
-									Username string `graphql:"username"`
-									Name     string `graphql:"name"`
-								} `graphql:"user"`
-							} `graphql:"nodes"`
-							PageInfo struct {
-								EndCursor   string `graphql:"endCursor"`
-								HasNextPage bool   `graphql:"hasNextPage"`
-							} `graphql:"pageInfo"`
-						} `graphql:"timelogs(first: $first, after: $endCursor)"` // todo: pagination
-					}
-				} `graphql:"issues(first: $first)"`
-			} `graphql:"project(fullPath: $projectPath)"`
-		}
+		var cursor string
+		for {
+			var q struct {
+				Project struct {
+					TimeLogs struct {
+						Nodes []struct {
+							ID               string    `graphql:"id"`
+							SpentAt          time.Time `graphql:"spentAt"`
+							TimeSpentSeconds int       `graphql:"timeSpent"`
+							Summary          string    `graphql:"summary"`
+							User             struct {
+								Username string `graphql:"username"`
+								Name     string `graphql:"name"`
+							} `graphql:"user"`
+						} `graphql:"nodes"`
+						PageInfo struct {
+							EndCursor   string `graphql:"endCursor"`
+							HasNextPage bool   `graphql:"hasNextPage"`
+						} `graphql:"pageInfo"`
+					} `graphql:"timelogs(startDate: $d1, endDate: $d2, sort: $sort, first: $first, after: $endCursor)"`
+				} `graphql:"project(fullPath: $projectPath)"`
+			}
 
-		variables := map[string]any{
-			"first":       100,
-			"projectPath": graphql.ID(g.projectPath),
-			"endCursor":   "",
-		}
+			variables := map[string]any{
+				"projectPath": graphql.ID(g.projectPath),
+				"first":       100,
+				"d1":          d1,
+				"d2":          d2,
+				"sort":        TimelogSort("CREATED_ASC"),
+				"endCursor":   cursor,
+			}
 
-		err := g.client.Query(context.Background(), &q, variables)
-		if err != nil {
-			er <- err
-		}
+			err := g.client.Query(context.Background(), &q, variables)
+			if err != nil {
+				er <- err
+			}
 
-		for _, issue := range q.Project.Issues.Nodes {
-			for _, timelog := range issue.TimeLogs.Nodes {
+			for _, timelog := range q.Project.TimeLogs.Nodes {
 				if timelog.SpentAt.After(d1) && timelog.SpentAt.Before(d2) {
 					d := valueobject.NewDay(timelog.SpentAt)
 					d.Track(g.hourlyRate, float32(timelog.TimeSpentSeconds/3600))
 					ch <- d
 				}
 			}
+
+			if q.Project.TimeLogs.PageInfo.HasNextPage {
+				cursor = q.Project.TimeLogs.PageInfo.EndCursor
+				continue
+			}
+			return
 		}
 	}()
 	return ch, er
