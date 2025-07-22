@@ -33,6 +33,15 @@ func NewCalendar(
 	}
 }
 
+var (
+	hr = strings.Repeat("-", 28) // horizontal rule
+
+	captionFormat  = "Jan 2006"
+	captionShift   = strings.Repeat(" ", len(hr)/2-len(captionFormat)+2)
+	dayAbbrs       = "Mon Tue Wed Thu Fri Sat Sun"
+	dayPlaceholder = strings.Repeat(" ", 4)
+)
+
 type calendar struct {
 	begin    time.Time
 	end      time.Time
@@ -54,11 +63,11 @@ type calendar struct {
 //
 // we used a new style, when the Monday is the first day of a week.
 func (c calendar) PrintHeader() {
-	fmt.Println(c.output.String(c.begin.Format("        Jan 2006")).Bold())
-	fmt.Printf("%s\n", strings.Repeat("-", 27))
-	fmt.Println(c.output.String("Mon Tue Wed Thu Fri Sat Sun").Bold())
-	fmt.Printf("%s\n", strings.Repeat("-", 27))
-	fmt.Print(strings.Repeat("    ", GetWeekDayNumber(c.begin)-1))
+	fmt.Println(captionShift, c.output.String(c.begin.Format(captionFormat)).Bold())
+	fmt.Println(hr)
+	fmt.Println(c.output.String(dayAbbrs).Bold())
+	fmt.Println(hr)
+	fmt.Print(strings.Repeat(dayPlaceholder, GetWeekDayNumber(c.begin)-1))
 }
 
 // Print footer line.
@@ -70,7 +79,7 @@ func (c calendar) PrintFooter() {
 	if GetWeekDayNumber(c.end) != 7 {
 		fmt.Println() // print new line - next week of month
 	}
-	fmt.Printf("%s\n", strings.Repeat("-", 27))
+	fmt.Println(hr)
 }
 
 // Print stats of employee in format:
