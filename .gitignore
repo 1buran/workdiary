@@ -35,3 +35,4 @@ go.work.sum
 demo/*.webm
 demo/*.gif
 demo/*.mp4
+demo/*.png

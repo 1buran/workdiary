@@ -40,8 +40,10 @@ func (dp dayprint) Print(d valueobject.Day) {
 
 	s := dp.output.String(d.Format(format))
 	idx := int(math.Round(float64(d.Hours())))
-	color := dp.paletter.Index(idx)
+	color, fgColor := dp.paletter.Index(idx)
 	hours := d.Hours()
+
+	s = s.Foreground(dp.output.Color(fgColor))
 
 	// apply style respecting to rules
 	switch {

@@ -33,8 +33,10 @@ type TrackMode struct {
 }
 
 type CalendarMode struct {
-	Month int `arg:"-m,--month" help:"choose month (default: current month)"`
-	Year  int `arg:"-y,--year" help:"choose year (default: current year)"`
+	Month      int    `arg:"-m,--month" help:"choose month (default: current month)"`
+	Year       int    `arg:"-y,--year" help:"choose year (default: current year)"`
+	Theme      string `arg:"-t,--theme" help:"color theme name"`
+	ListThemes bool   `arg:"-l,--list-themes" help:"lsit available color themes"`
 }
 
 type DemoMode struct{}
@@ -59,7 +61,13 @@ func main() {
 	}
 
 	if args.Demo != nil {
-		usecase.Demo()
+		var themes [][3]string
+		for _, name := range config.Themes.List() {
+			themes = append(
+				themes, [3]string{name, config.Themes.Get(name).Color("workingDay"),
+					config.Themes.Get(name).Color("dayOff")})
+		}
+		usecase.Demo(themes)
 	}
 
 	cfg, err := config.ReadConfig(args.Config)
@@ -93,6 +101,11 @@ func main() {
 	}
 
 	if args.Calendar != nil {
+		if args.Calendar.ListThemes {
+			config.Themes.PrintList()
+			return
+		}
+
 		today := time.Now()
 		year, month := today.Year(), today.Month()
 
@@ -110,16 +123,28 @@ func main() {
 		for _, v := range clients {
 			clientList = append(clientList, v)
 		}
+
+		doff, wday, exp, infact, sum := cfg.Color("dayOff"),
+			cfg.Color("workingDay"),
+			cfg.Color("expectedAmount"),
+			cfg.Color("infactAmount"),
+			cfg.Color("summary")
+
+		if len(args.Calendar.Theme) > 0 {
+			if t := config.Themes.Get(args.Calendar.Theme); t != nil {
+				doff, wday, exp, infact, sum = t.Color("dayOff"),
+					t.Color("workingDay"),
+					t.Color("expectedAmount"),
+					t.Color("infactAmount"),
+					t.Color("summary")
+			}
+		}
 		usecase.Show(
 			os.Stdout,
 			clientList,
 			monthbegin,
 			monthend,
-			cfg.Color("dayOff"),
-			cfg.Color("workingDay"),
-			cfg.Color("expectedAmount"),
-			cfg.Color("infactAmount"),
-			cfg.Color("summary"),
+			doff, wday, exp, infact, sum,
 			args.Debug,
 		)
 	}

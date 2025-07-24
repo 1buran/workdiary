@@ -1,7 +1,8 @@
 # workdiary
 Simple self-motivation cli app for tracking work time in Redmine, GitLab,
 show calendar with month earnings.
-![Main demo](https://i.imgur.com/fqTVtxd.gif)
+![Main demo](https://i.imgur.com/kMmfAXb.gif)
+![Themes](https://i.imgur.com/oLoncRQ.png)
 
 ## Installation
 
@@ -177,10 +178,18 @@ These are tasks of [xc](https://github.com/joerdav/xc) runner.
 
 ### vhs
 
-Run VHS fo update gifs.
+Run VHS for update gifs.
 
 ```
 vhs demo/main.tape
+```
+
+### themes
+
+Show available color themes.
+
+```
+vhs demo/themes.tape
 ```
 
 ### imgur
@@ -190,11 +199,16 @@ Upload to Imgur and update readme.
 ```
 declare -A demo=()
 demo["main"]="Main demo"
+demo["themes"]="Themes"
+
+declare -A format=()
+format["main"]="gif"
+format["themes"]="png"
 
 for i in ${!demo[@]}; do
     . .env && url=`curl --location https://api.imgur.com/3/image \
         --header "Authorization: Client-ID ${clientId}" \
-        --form image=@demo/$i.gif \
+        --form image=@demo/$i.${format[$i]} \
         --form type=image \
         --form title=workdiary \
         --form description=Demo | jq -r '.data.link'`

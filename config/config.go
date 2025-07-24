@@ -39,6 +39,13 @@ type Theme struct {
 	Colors map[string]string
 }
 
+func (t Theme) Color(s string) string {
+	if color, ok := t.Colors[s]; ok {
+		return color
+	}
+	return "11" // fallback color
+}
+
 type Application struct {
 	Theme Theme
 }
@@ -50,10 +57,7 @@ type Config struct {
 
 // Color of item, write to stderr a message if requested color is not found in theme.
 func (c *Config) Color(s string) string {
-	if color, ok := c.App.Theme.Colors[s]; ok {
-		return color
-	}
-	return "11" // fallback color
+	return c.App.Theme.Color(s)
 }
 
 func DefaultConfig() Config {

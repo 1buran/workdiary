@@ -7,8 +7,10 @@ import (
 )
 
 type Paletter interface {
+	AddBackgroundColor(c string)
+	AddForegroundColor(c string)
+	Index(i int) (bgColor, fgColor string)
 	Sprint(output *termenv.Output) string
-	Index(i int) string
 }
 
 type Debugger interface {
