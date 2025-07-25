@@ -84,7 +84,7 @@ func (g gitlabApiClient) List(d1, d2 time.Time) (<-chan valueobject.Day, <-chan 
 			for _, timelog := range q.Project.TimeLogs.Nodes {
 				if timelog.SpentAt.After(d1) && timelog.SpentAt.Before(d2) {
 					d := valueobject.NewDay(timelog.SpentAt)
-					d.Track(g.hourlyRate, float32(timelog.TimeSpentSeconds/3600))
+					d.Track(g.hourlyRate, float32(timelog.TimeSpentSeconds)/3600)
 					ch <- d
 				}
 			}
