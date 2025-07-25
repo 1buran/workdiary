@@ -77,10 +77,11 @@ func Show(
 	// show extra data for debug: rate, limit, expected hours in month
 	rate := repo.TotalAmount() / repo.TotalHours()
 	debugger := service.NewDebugger(debug)
-	debugger.Write(strings.Repeat("-", 27))
-	debugger.Write(paletter.Sprint(output))
-	debugger.Write(fmt.Sprintf("projects: %q", projects))
-	debugger.Write(fmt.Sprintf("rate: %.2f, hours: %.2f", rate, repo.TotalHours()))
+	debugger.Writeln(strings.Repeat("-", 28))
+	debugger.Writeln(paletter.Sprint(output))
+	debugger.Writeln(fmt.Sprintf("projects: %q", projects))
+	debugger.Writeln(fmt.Sprintf("rate: %.2f, hours: %.2f", rate, repo.TotalHours()))
+	debugger.Writeln(strings.Repeat("-", 28))
 	defer debugger.Read()
 
 	limit := float32(8) // base daily limit of working hours

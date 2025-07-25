@@ -17,6 +17,12 @@ type debug struct {
 
 func (d debug) Write(a ...any) {
 	if d.isEnabled {
+		fmt.Fprint(d.buf, a...)
+	}
+}
+
+func (d debug) Writeln(a ...any) {
+	if d.isEnabled {
 		fmt.Fprintln(d.buf, a...)
 	}
 }

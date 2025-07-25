@@ -116,7 +116,8 @@ func (c calendar) PrintSummary(rate, limit, total float32) {
 	s = s.Foreground(c.output.Color(c.summaryColor)).Bold()
 	fmt.Print(s, "\n")
 
-	c.debugger.Write(fmt.Sprintf("expected hours: %.2f", float32(totalDays)*limit))
+	c.debugger.Writeln(strings.Repeat("-", 28))
+	c.debugger.Writeln(fmt.Sprintf("Month expected hours: %.2f", float32(totalDays)*limit))
 }
 
 // Count work days of month.

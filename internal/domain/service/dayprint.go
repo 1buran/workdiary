@@ -45,27 +45,36 @@ func (dp dayprint) Print(d valueobject.Day) {
 
 	s = s.Foreground(dp.output.Color(fgColor))
 
+	if weekday >= 6 {
+		dp.debug.Write(dp.output.String(d.Format("Mon Jan 02 ")).Faint())
+	} else {
+		dp.debug.Write(d.Format("Mon Jan 02 "))
+	}
+
 	// apply style respecting to rules
 	switch {
 	case hours > 0:
 		s = s.Background(dp.output.Color(color))
 		if weekday >= 6 {
 			dp.debug.Write(
-				fmt.Sprintf("extra: %s +%.2fh/+%.2f", d.Format("Jan 02"), hours, d.Gross()))
+				fmt.Sprintf("extra: +%.2fh/+%.2f ", hours, d.Gross()))
+		} else {
+			dp.debug.Write(
+				fmt.Sprintf("woday: %.2fh/%.2f ", hours, d.Gross()))
 		}
 	case hours == 0 && weekday < 6 && d.IsPast():
 		s = s.Background(dp.output.Color(color))
-		dp.debug.Write(
-			fmt.Sprintf("daoff: %s %.2fh/%.2f", d.Format("Jan 02"), hours, d.Gross()))
+		dp.debug.Write("--")
 	case hours == 0 && weekday >= 6:
 		s = s.Foreground(dp.output.Color(color))
 	}
 
 	if hours > dp.limit {
 		extra := hours - dp.limit
-		dp.debug.Write(
-			fmt.Sprintf("extra: %s +%.2fh/+%.2f", d.Format("Jan 02"), extra, extra*d.Rate()))
+		dp.debug.Write(fmt.Sprintf("extra: +%.2fh/+%.2f ", extra, extra*d.Rate()))
 	}
+
+	dp.debug.Writeln()
 
 	fmt.Print(s)
 }

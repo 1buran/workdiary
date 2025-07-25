@@ -15,6 +15,7 @@ type Paletter interface {
 
 type Debugger interface {
 	Write(a ...any)
+	Writeln(a ...any)
 	Read()
 }
 
