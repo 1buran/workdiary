@@ -39,7 +39,10 @@ type CalendarMode struct {
 	ListThemes bool   `arg:"-l,--list-themes" help:"lsit available color themes"`
 }
 
-type DemoMode struct{}
+type DemoMode struct {
+	Month int    `arg:"-m,--month" help:"choose month (default: current month)"`
+	Theme string `arg:"-t,--theme" help:"color theme name"`
+}
 
 type Args struct {
 	Calendar *CalendarMode `arg:"subcommand:cal" help:"calendar"`
@@ -62,10 +65,23 @@ func main() {
 
 	if args.Demo != nil {
 		var themes [][3]string
-		for _, name := range config.Themes.List() {
+		if len(args.Demo.Theme) > 0 {
+			th := config.Themes.Get(args.Demo.Theme)
+			if th == nil {
+				fmt.Printf("Error: theme %q not found", args.Demo.Theme)
+			}
 			themes = append(
-				themes, [3]string{name, config.Themes.Get(name).Color("workingDay"),
-					config.Themes.Get(name).Color("dayOff")})
+				themes, [3]string{args.Demo.Theme, th.Color("workingDay"), th.Color("dayOff")})
+		} else {
+			for _, name := range config.Themes.List() {
+				themes = append(
+					themes, [3]string{name, config.Themes.Get(name).Color("workingDay"),
+						config.Themes.Get(name).Color("dayOff")})
+			}
+		}
+		if args.Demo.Month > 0 {
+			usecase.Demo2(args.Demo.Month, themes[0][1], themes[0][2])
+			return
 		}
 		usecase.Demo(themes)
 	}

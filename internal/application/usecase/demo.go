@@ -39,3 +39,21 @@ func Demo(themes [][3]string) { // format of array: [name, startColor, endColor]
 	}
 	output.ShowCursor()
 }
+
+// Print demo calendar for month with debug.
+func Demo2(month int, c1, c2 string) { // format of array: [name, startColor, endColor]
+	clients := []apiclient.ApiClient{apiclient.NewDemoApiClient()}
+	today := time.Now()
+	year := today.Year()
+
+	output := termenv.NewOutput(os.Stdout)
+
+	monthbegin := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
+	monthend := monthbegin.AddDate(0, 1, 0).Add(-time.Nanosecond)
+
+	Show(
+		output, clients, monthbegin, monthend,
+		c1, c2, "#ff9ff3", "#4cd137", "#fd79a8",
+		true,
+	)
+}
