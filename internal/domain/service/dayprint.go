@@ -55,6 +55,8 @@ func (dp dayprint) Print(d valueobject.Day) {
 		}
 	case hours == 0 && weekday < 6 && d.IsPast():
 		s = s.Background(dp.output.Color(color))
+		dp.debug.Write(
+			fmt.Sprintf("daoff: %s %.2fh/%.2f", d.Format("Jan 02"), hours, d.Gross()))
 	case hours == 0 && weekday >= 6:
 		s = s.Foreground(dp.output.Color(color))
 	}
