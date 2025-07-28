@@ -50,7 +50,7 @@ func NewPaletter(startColor, endColor string, shades int) Paletter {
 	adaptiveForeground := func(bg colorful.Color) colorful.Color {
 		bh, _, bl := bg.Hcl()
 		if bl > 0.2 {
-			return colorful.Hcl(360-bh, 0.2, 1)
+			return colorful.Hcl(360-bh, 0.5, 1).Clamped()
 		}
 		return colorful.Hcl(0, 0, 1)
 	}

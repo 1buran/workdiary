@@ -1,7 +1,7 @@
 # workdiary
 Simple self-motivation cli app for tracking work time in Redmine, GitLab,
 show calendar with month earnings.
-![Main](https://i.imgur.com/kMmfAXb.gif)
+![Main](https://i.imgur.com/iVcAzGs.mp4)
 ![Themes](https://i.imgur.com/oLoncRQ.png)
 ![Debug](https://i.imgur.com/twsBK4k.png)
 
@@ -207,7 +207,7 @@ Upload to Imgur and update readme.
 
 ```
 declare -A demo=()
-demo["main.gif"]="Main"
+demo["main.webm"]="Main"
 demo["themes.png"]="Themes"
 demo["debug.png"]="Debug"
 
@@ -215,7 +215,7 @@ for i in ${!demo[@]}; do
     . .env && url=`curl --location https://api.imgur.com/3/image \
         --header "Authorization: Client-ID ${clientId}" \
         --form image=@demo/$i \
-        --form type=image \
+        --form type=file \
         --form title=workdiary \
         --form description=Demo | jq -r '.data.link'`
     sed -i "s#^\!\[${demo[$i]}\].*#![${demo[$i]}]($url)#" README.md
