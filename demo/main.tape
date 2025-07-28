@@ -1,4 +1,4 @@
-Output demo/main.webm
+Output demo/main.gif
 
 Set Shell "bash"
 Set FontSize 14
