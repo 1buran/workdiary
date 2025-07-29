@@ -217,9 +217,9 @@ Without specifying month the demo will show you whole year.
 
 These are tasks of [xc](https://github.com/joerdav/xc) runner.
 
-### vhs
+### main
 
-Run VHS for update gifs.
+Run VHS for update main demo gif.
 
 ```
 vhs demo/main.tape
