@@ -3,7 +3,7 @@ Simple self-motivation cli app for tracking work time in Redmine, GitLab,
 show calendar with month earnings.
 ![Main](https://i.imgur.com/86jMA43.gif)
 ![Themes](https://i.imgur.com/oLoncRQ.png)
-![Debug](https://i.imgur.com/twsBK4k.png)
+![Debug](https://i.imgur.com/pIU8JIF.png)
 
 ## Installation
 
