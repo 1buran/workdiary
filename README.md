@@ -90,6 +90,8 @@ Options:
 
 Commands:
   cal                    calendar
+  track                  track time
+  demo                   demo
 ```
 
 Use `-c` to specify custom config, the workdiary uses `~/.config/workdiary/config.json`
@@ -103,18 +105,22 @@ Use `-p` or `--print-conf-example` to print example of config.
 Subcommands:
 - `cal`- show calendar with stats of working days.
 - `track`- register spent time in tracking system (Redmine or GitLab)
+- `demo` - show calendar demo
 
 ### Calendar
 
 Use `-h` or `--help` to print help of calendar subcommand:
 
 ```
-Usage: workdiary cal [--month MONTH] [--year YEAR]
+Usage: workdiary cal [--month MONTH] [--year YEAR] [--theme THEME] [--list-themes]
 
 Options:
   --month MONTH, -m MONTH
                          choose month (default: current month)
   --year YEAR, -y YEAR   choose year (default: current year)
+  --theme THEME, -t THEME
+                         color theme name
+  --list-themes, -l      lsit available color themes
 
 Global options:
   --debug, -d            enable debug
@@ -127,6 +133,13 @@ Global options:
 Use `-y` or `--year` to set custom year, default: current year.
 
 Use `-m` or `--month` to set custom month, default: current month.
+
+Use `-t` or `--theme` to use predefined theme instead of colors from config.
+
+Use `-l` or `--list-themes` to see available color themes (see demo).
+
+Use `-d` or `--debug` to enable debug mode: in this mode you can check exact amount of
+    collected hours pulled from tracking systems (see demo).
 
 ### Track
 
@@ -172,6 +185,33 @@ Use `-I` (capital letter) or `--issue` to specify the issue ID inside tracking s
 Use `-H` (capital letter) or `--hours` to specify spent time in hours (required).
 
 Use `-C` (capital letter) or `--comment` to specify a comment (optional).
+
+### Demo
+
+Use `-h` or `--help` to print help of tracking demo subcommand:
+
+```
+Usage: workdiary demo [--month MONTH] [--theme THEME]
+
+Options:
+  --month MONTH, -m MONTH
+                         choose month (default: current month)
+  --theme THEME, -t THEME
+                         color theme name
+
+Global options:
+  --debug, -d            enable debug
+  -c CONFIG              config path (default: ~/.config/workdiary/config.json)
+  --print-conf-example, -p
+                         print example of config and exit
+  --help, -h             display this help and exit
+  ```
+
+Use `-m` or `--month` to specify the month of demo calendar.
+
+Use `-t` or `--theme` to specify the theme of demo calendar.
+
+Without specifying month the demo will show you whole year.
 
 ## Tasks
 
