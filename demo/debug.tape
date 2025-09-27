@@ -2,7 +2,7 @@ Set Shell "bash"
 Set FontSize 15
 Set Padding 10
 Set Margin 0
-Set Width 580
+Set Width 656
 Set Height 1050
 Set Framerate 60
 Set TypingSpeed 20ms

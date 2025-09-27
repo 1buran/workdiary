@@ -17,7 +17,7 @@ func (d demoApiClient) List(d1, d2 time.Time) (<-chan valueobject.Day, <-chan er
 		defer close(ch)
 		defer close(er)
 		for d := d1; d.Before(d2); d = d.AddDate(0, 0, 1) {
-			day := valueobject.NewDay(d, "text comment")
+			day := valueobject.NewDay(d, "comment")
 			day.Track(10, rand.Float32()*10)
 			ch <- day
 		}
