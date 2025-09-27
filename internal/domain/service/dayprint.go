@@ -14,20 +14,23 @@ func NewDayPrinter(
 	paletter Paletter,
 	debugger Debugger,
 	dayLimit float32,
+	showComments bool,
 ) DayPrinter {
 	return dayprint{
-		output:   output,
-		paletter: paletter,
-		debug:    debugger,
-		limit:    dayLimit,
+		output:       output,
+		paletter:     paletter,
+		debug:        debugger,
+		limit:        dayLimit,
+		showComments: showComments,
 	}
 }
 
 type dayprint struct {
-	output   *termenv.Output
-	paletter Paletter
-	debug    Debugger
-	limit    float32
+	output       *termenv.Output
+	paletter     Paletter
+	debug        Debugger
+	limit        float32
+	showComments bool
 }
 
 func (dp dayprint) Print(d valueobject.Day) {
@@ -72,6 +75,10 @@ func (dp dayprint) Print(d valueobject.Day) {
 	if hours > dp.limit {
 		extra := hours - dp.limit
 		dp.debug.Write(fmt.Sprintf("extra: +%.2fh/+%.2f ", extra, extra*d.Rate()))
+	}
+
+	if hours > 0 && dp.showComments {
+		dp.debug.Write(d.Comments())
 	}
 
 	dp.debug.Writeln()

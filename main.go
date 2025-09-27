@@ -33,10 +33,11 @@ type TrackMode struct {
 }
 
 type CalendarMode struct {
-	Month      int    `arg:"-m,--month" help:"choose month (default: current month)"`
-	Year       int    `arg:"-y,--year" help:"choose year (default: current year)"`
-	Theme      string `arg:"-t,--theme" help:"color theme name"`
-	ListThemes bool   `arg:"-l,--list-themes" help:"lsit available color themes"`
+	Month        int    `arg:"-m,--month" help:"choose month (default: current month)"`
+	Year         int    `arg:"-y,--year" help:"choose year (default: current year)"`
+	Theme        string `arg:"-t,--theme" help:"color theme name"`
+	ShowComemnts bool   `arg:"-c,--comments" help:"show comments"`
+	ListThemes   bool   `arg:"-l,--list-themes" help:"lsit available color themes"`
 }
 
 type DemoMode struct {
@@ -161,6 +162,7 @@ func main() {
 			monthbegin,
 			monthend,
 			doff, wday, exp, infact, sum,
+			args.Calendar.ShowComemnts,
 			args.Debug,
 		)
 	}

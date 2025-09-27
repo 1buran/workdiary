@@ -2,6 +2,7 @@ package repository
 
 import (
 	"sort"
+	"strings"
 	"sync"
 	"time"
 
@@ -33,14 +34,18 @@ func (i *inmemory) Compact() {
 	i.Lock()
 	defer i.Unlock()
 
+	comments := make(map[string][]string)
 	diary := make(map[string][]float32)
 	for _, d := range i.days {
 		if v, ok := diary[d.Format(time.DateOnly)]; ok {
 			v[1] += d.Hours()
 			v[2] += d.Gross()
 			v[0] = v[2] / v[1]
+			comments[d.Format(time.DateOnly)] = append(
+				comments[d.Format(time.DateOnly)], d.Comments())
 		} else {
 			diary[d.Format(time.DateOnly)] = []float32{d.Rate(), d.Hours(), d.Gross()}
+			comments[d.Format(time.DateOnly)] = []string{d.Comments()}
 		}
 	}
 
@@ -53,7 +58,7 @@ func (i *inmemory) Compact() {
 	var ndays []valueobject.Day
 	for _, k := range dates {
 		t, _ := time.Parse(time.DateOnly, k)
-		v := valueobject.NewDayTracked(t, diary[k][0], diary[k][1], diary[k][2])
+		v := valueobject.NewDayTracked(t, diary[k][0], diary[k][1], diary[k][2], strings.Join(comments[k], ";"))
 		ndays = append(ndays, v)
 	}
 

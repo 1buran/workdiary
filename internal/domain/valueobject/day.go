@@ -10,6 +10,7 @@ type Day struct {
 	spenthours float32
 	gross      float32
 	hourlyrate float32
+	comments   string
 }
 
 func (d *Day) Track(rate, hours float32) {
@@ -24,8 +25,9 @@ func (d Day) Rate() float32          { return d.hourlyrate }
 func (d Day) Date() time.Time        { return d.ts }
 func (d Day) Format(f string) string { return d.ts.Format(f) }
 func (d Day) IsPast() bool           { return d.ts.Before(time.Now()) }
+func (d Day) Comments() string       { return d.comments }
 
-func NewDay(d time.Time) Day { return Day{ts: d} }
-func NewDayTracked(d time.Time, r, h, g float32) Day {
-	return Day{ts: d, hourlyrate: r, spenthours: h, gross: g}
+func NewDay(d time.Time, comments string) Day { return Day{ts: d, comments: comments} }
+func NewDayTracked(d time.Time, r, h, g float32, c string) Day {
+	return Day{ts: d, hourlyrate: r, spenthours: h, gross: g, comments: c}
 }

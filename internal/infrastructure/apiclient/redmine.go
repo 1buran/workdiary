@@ -45,7 +45,7 @@ func (r redmineApiClient) List(d1, d2 time.Time) (<-chan valueobject.Day, <-chan
 			case data, ok := <-dataChan:
 				if ok { // data channel is open, perform action on the gotten item
 					for _, item := range data.Items {
-						day := valueobject.NewDay(item.SpentOn.Time)
+						day := valueobject.NewDay(item.SpentOn.Time, item.Comment)
 						day.Track(r.hourlyRate, item.Hours)
 						ch <- day
 					}

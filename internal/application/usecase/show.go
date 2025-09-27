@@ -23,6 +23,7 @@ func Show(
 	d1, d2 time.Time,
 	color1, color2 string,
 	expectedAmountColor, infactAmountColor, summaryColor string,
+	showComments bool,
 	debug bool,
 ) {
 	repo := repository.NewInMemoryRepository()
@@ -60,7 +61,7 @@ func Show(
 
 	// fill the possible missed days: add all month days to repo.
 	for d := d1; d.Before(d2); d = d.AddDate(0, 0, 1) {
-		repo.Add(valueobject.NewDay(d))
+		repo.Add(valueobject.NewDay(d, ""))
 	}
 
 	repo.Compact() // compact the data: merge day stats from different sources
@@ -86,7 +87,7 @@ func Show(
 
 	limit := float32(8) // base daily limit of working hours
 
-	dayprinter := service.NewDayPrinter(output, paletter, debugger, limit)
+	dayprinter := service.NewDayPrinter(output, paletter, debugger, limit, showComments)
 	cal := service.NewCalendar(d1, d2, dayprinter, repo, expectedAmountColor, infactAmountColor, summaryColor, debugger)
 
 	cal.PrintHeader()

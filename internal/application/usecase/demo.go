@@ -28,7 +28,7 @@ func Demo(themes [][3]string) { // format of array: [name, startColor, endColor]
 		Show(
 			output, clients, monthbegin, monthend,
 			theme[1], theme[2], "#ff9ff3", "#4cd137", "#fd79a8",
-			false,
+			false, false,
 		)
 		fmt.Println(
 			output.String("\ntheme>").Faint().String(),
@@ -54,6 +54,6 @@ func Demo2(month int, c1, c2 string) { // format of array: [name, startColor, en
 	Show(
 		output, clients, monthbegin, monthend,
 		c1, c2, "#ff9ff3", "#4cd137", "#fd79a8",
-		true,
+		true, true,
 	)
 }
