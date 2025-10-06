@@ -172,8 +172,9 @@ func main() {
 			fmt.Printf("Error: project %q not found or disabled!\n", args.Track.Project)
 			return
 		} else {
+			trackDate := args.Track.Date.Time().Add(time.Second) // add second after midnight
 			usecase.Track(
-				client, args.Track.Date.Time(), args.Track.Issue, args.Track.Activity,
+				client, trackDate, args.Track.Issue, args.Track.Activity,
 				args.Track.Hours, args.Track.Comment,
 			)
 		}
