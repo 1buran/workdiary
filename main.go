@@ -70,6 +70,7 @@ func main() {
 			th := config.Themes.Get(args.Demo.Theme)
 			if th == nil {
 				fmt.Printf("Error: theme %q not found", args.Demo.Theme)
+				return
 			}
 			themes = append(
 				themes, [3]string{args.Demo.Theme, th.Color("workingDay"), th.Color("dayOff")})

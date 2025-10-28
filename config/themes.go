@@ -16,7 +16,7 @@ type themes struct {
 }
 
 func (t themes) List() (names []string) {
-	for k, _ := range t.repo {
+	for k := range t.repo {
 		names = append(names, k)
 	}
 	slices.Sort(names)
