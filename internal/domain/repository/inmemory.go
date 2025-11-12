@@ -58,7 +58,7 @@ func (i *inmemory) Compact() {
 	var ndays []valueobject.Day
 	for _, k := range dates {
 		t, _ := time.Parse(time.DateOnly, k)
-		v := valueobject.NewDayTracked(t, diary[k][0], diary[k][1], diary[k][2], strings.Join(comments[k], ";"))
+		v := valueobject.NewDayTracked(t, diary[k][0], diary[k][1], diary[k][2], strings.Join(comments[k], "; "))
 		ndays = append(ndays, v)
 	}
 
